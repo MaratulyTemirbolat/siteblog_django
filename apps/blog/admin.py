@@ -39,7 +39,10 @@ class PostAdmin(admin.ModelAdmin):
     list_display_links: tuple = ('id', 'title')
     search_fields: tuple = ('title',)
     list_filter: tuple = ('category',)
-    readonly_fields: tuple = ('views', 'created_at', 'get_photo')
+    readonly_fields: tuple = ('views', 'created_at',
+                              'get_photo', 'datetime_created',
+                              'datetime_updated', 'datetime_deleted',
+                              'is_deleted')
     fields: tuple = (
         ('title', 'slug'), 'category',
         'tags', 'content', 'created_at',
@@ -55,7 +58,7 @@ class PostAdmin(admin.ModelAdmin):
     # Из-за этого новый пост будет создан на основе текущего (редактирующего)
     filter_horizontal: tuple = ('tags',)
 
-    def get_photo(self, obj: Optional[Post], width: int = 100) -> str:
+    def get_photo(self, obj: Optional[Post], width: int = 100) -> str:  # noqa
         if obj.photo:
             return mark_safe(f'<img src="{obj.photo.url}" width="{width}">')
 
@@ -67,6 +70,8 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     """Class to setting Category in Admin."""
 
+    readonly_fields: tuple = ('datetime_created', 'datetime_updated',
+                              'datetime_deleted', 'is_deleted')
     prepopulated_fields: dict = {"slug": ("title",)}
 
 
@@ -74,4 +79,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     """Class to setting Tag in Admin."""
 
+    readonly_fields: tuple = ('datetime_created', 'datetime_updated',
+                              'datetime_deleted', 'is_deleted')
     prepopulated_fields: dict = {"slug": ("title",)}
