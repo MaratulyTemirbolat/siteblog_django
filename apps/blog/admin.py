@@ -34,22 +34,23 @@ class PostAdmin(admin.ModelAdmin):
     list_display: tuple = (
         'id', 'title', 'slug',
         'category', 'created_at',
-        'get_photo',
+        'get_photo', 'views',
     )
-    list_display_links: tuple = ('id', 'title')
+    list_display_links: tuple = ('id', 'title',)
     search_fields: tuple = ('title',)
-    list_filter: tuple = ('category',)
+    list_filter: tuple = ('category', 'tags',)
     readonly_fields: tuple = ('views', 'created_at',
                               'get_photo', 'datetime_created',
                               'datetime_updated', 'datetime_deleted',
-                              'is_deleted')
+                              'is_deleted',)
     fields: tuple = (
         ('title', 'slug'), 'category',
         'tags', 'content', 'created_at',
-        ('photo', 'get_photo'), 'views'
+        ('photo', 'get_photo'), 'views',
+        'author',
     )
     prepopulated_fields: dict = {
-        "slug": ("title",)
+        "slug": ("title",),
     }
     form = PostAdminForm
     save_as: bool = True

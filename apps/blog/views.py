@@ -28,6 +28,7 @@ from auths.models import CustomUser
 from blog.models import (
     Post,
     Category,
+    Tag,
 )
 from blog.forms import (
     CustomUserRegisterForm,
@@ -115,4 +116,16 @@ class GetPost(LoginRequiredMixin, DetailView):  # noqa
 
 
 class PostsByTag(ListView):  # noqa
-    pass
+    template_name = 'blog/index.html'
+    context_object_name = 'posts'
+    paginate_by = 1
+    allow_empty = False
+
+    def get_queryset(self) -> QuerySet:  # noqa
+        return Post.objects.filter(tags__slug=self.kwargs['slug'])
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # noqa
+        context: dict = super().get_context_data(**kwargs)
+        context['title'] = ('Записи по тегу: ' +
+                            str(Tag.objects.get(slug=self.kwargs['slug'])))
+        return context
