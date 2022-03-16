@@ -38,7 +38,7 @@
                             <br>
                             <div>
                                 {% if post.photo %}
-                                <img src="{{ post.photo.url }}" alt="{{ post.title }}">
+                                <img src="{{ post.photo.url }}" alt="">
                                 {% else %}
                                 <img src="https://image.freepik.com/free-vector/flat-coming-soon-wallpaper_23-2148887719.jpg" alt="">
                                 {% endif %}
@@ -54,7 +54,7 @@
                             <li>
                                 <article class="comment">
                                     <header class="comment-author">
-                                        <img src="img/author-1.jpg" alt="">
+                                        <img src="{% static 'img/author-1.jpg' %}" alt="">
                                     </header>
                                     <section class="comment-details">
                                         <div class="author-name">
@@ -74,7 +74,7 @@
                                     <li>
                                         <article class="comment">
                                             <header class="comment-author">
-                                                <img src="img/author-2.jpg" alt="">
+                                                <img src="{% static 'img/author-2.jpg' %}" alt="">
                                             </header>
                                             <section class="comment-details">
                                                 <div class="author-name">
@@ -96,7 +96,7 @@
                             <li>
                                 <article class="comment">
                                     <header class="comment-author">
-                                        <img src="img/author-3.jpg" alt="">
+                                        <img src="{% static 'img/author-3.jpg' %}" alt="">
                                     </header>
                                     <section class="comment-details">
                                         <div class="author-name">
@@ -132,18 +132,19 @@
                 </div>
             </div>
             <div class="col-md-4">
-                    
+                
+                <div class="newsletter">
+                    <h2 class="sidebar-title">Search</h2>
+                    <form action="{% url 'search' %}" method="get">
+                        <input style="width:50%; margin-right:30px;" type="text" name="s" id="" placeholder="Search...">
+                        <input type="submit" value="Search">
+                    </form>
+                </div>
+
                 {% get_popular_posts 5 %}
                 
                 {% get_popular_tags %}
                 
-                <div class="newsletter">
-                    <h2 class="sidebar-title">Subscribe To oUR nEWSLETTER</h2>
-                    <form action="#" method="post">
-                        <input type="email" name="" id="" placeholder="Email">
-                        <input type="submit" value="Subscribe">
-                    </form>
-                </div>
             </div>
             </div>
             </div>

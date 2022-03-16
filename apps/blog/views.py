@@ -129,3 +129,17 @@ class PostsByTag(ListView):  # noqa
         context['title'] = ('Записи по тегу: ' +
                             str(Tag.objects.get(slug=self.kwargs['slug'])))
         return context
+
+
+class Search(ListView):  # noqa
+    template_name = 'blog/search.html'
+    context_object_name = 'posts'
+    paginate_by = 2
+
+    def get_queryset(self) -> QuerySet:  # noqa
+        return Post.objects.filter(title__icontains=self.request.GET.get('s'))
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # noqa
+        context: dict = super().get_context_data(**kwargs)
+        context['s'] = f"s={self.request.GET.get('s')}&"
+        return context
