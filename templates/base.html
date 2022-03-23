@@ -20,16 +20,23 @@
 
 <body>
     <div class="wrapper">
-
-        {% cache 20 header %}
+        {% comment "Header cache start" %}
+            {% cache 20 header %}
+        {% endcomment %}
         {% include 'inc/_header.html' %}
-        {% endcache %}
+        {% comment "Header cache end" %}
+            {% endcache %}
+        {% endcomment %}
 
         {% block content %} CONTENT {% endblock %}
         
-        {% cache 20 footer%}
+        {% comment "Footer cache start" %}
+            {% cache 20 footer %}
+        {% endcomment %}
         {% include 'inc/_footer.html' %}
-        {% endcache %}
+        {% comment "Footer cache end" %}
+            {% endcache %}
+        {% endcomment %}
         
     </div>
     <script src="{% static 'js/jquery-3.1.1.min.js' %}"></script>

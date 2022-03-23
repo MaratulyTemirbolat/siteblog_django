@@ -25,6 +25,14 @@ def adult_validation(age: date) -> None:  # noqa
         )
 
 
+def email_lower_case_validation(email: str) -> None:  # noqa
+    if(any(letter.isupper() for letter in email)):
+        raise ValidationError(
+            "Почта не может иметь ни один символ в верхнем регистре",
+            code='lower_case_email_error'
+        )
+
+
 class CustomUserManager(BaseUserManager):  # noqa
 
     def _create_user(
@@ -100,7 +108,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):  # noqa
     )
     email = models.EmailField(
         unique=True,
-        verbose_name='E-mail/username'
+        verbose_name='E-mail/username',
+        validators=[email_lower_case_validation]
     )
     is_staff = models.BooleanField(
         default=False,
