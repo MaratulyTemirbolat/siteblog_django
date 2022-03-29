@@ -1,12 +1,13 @@
 """Module to setting and register models in admin."""
 from typing import (
     Optional,
+    Type,
 )
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from django.contrib import admin
 from django import forms
 from django.utils.safestring import mark_safe
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from blog.models import (
     Category,
@@ -52,7 +53,7 @@ class PostAdmin(admin.ModelAdmin):
     prepopulated_fields: dict = {
         "slug": ("title",),
     }
-    form = PostAdminForm
+    form: Type[PostAdminForm] = PostAdminForm
     save_as: bool = True
     save_on_top: bool = True
     # Благодря этому появится кнопка "сохранить как новый объект"

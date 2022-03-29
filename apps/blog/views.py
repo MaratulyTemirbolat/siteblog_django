@@ -139,7 +139,7 @@ class Search(ListView):  # noqa
     def get_queryset(self) -> QuerySet:  # noqa
         return Post.objects.filter(title__icontains=self.request.GET.get('s'))
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # noqa
+    def get_context_data(self, **kwargs: Dict[str, Any]) -> Dict[str, Any]:  # noqa
         context: dict = super().get_context_data(**kwargs)
         context['s'] = f"s={self.request.GET.get('s')}&"
         return context
