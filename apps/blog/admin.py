@@ -1,12 +1,13 @@
 """Module to setting and register models in admin."""
 from typing import (
     Optional,
+    Type,
 )
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from django.contrib import admin
 from django import forms
 from django.utils.safestring import mark_safe
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from blog.models import (
     Category,
@@ -34,28 +35,32 @@ class PostAdmin(admin.ModelAdmin):
     list_display: tuple = (
         'id', 'title', 'slug',
         'category', 'created_at',
-        'get_photo',
+        'get_photo', 'views',
     )
-    list_display_links: tuple = ('id', 'title')
+    list_display_links: tuple = ('id', 'title',)
     search_fields: tuple = ('title',)
-    list_filter: tuple = ('category',)
-    readonly_fields: tuple = ('views', 'created_at', 'get_photo')
+    list_filter: tuple = ('category', 'tags',)
+    readonly_fields: tuple = ('views', 'created_at',
+                              'get_photo', 'datetime_created',
+                              'datetime_updated', 'datetime_deleted',
+                              'is_deleted',)
     fields: tuple = (
         ('title', 'slug'), 'category',
         'tags', 'content', 'created_at',
-        ('photo', 'get_photo'), 'views'
+        ('photo', 'get_photo'), 'views',
+        'author',
     )
     prepopulated_fields: dict = {
-        "slug": ("title",)
+        "slug": ("title",),
     }
-    form = PostAdminForm
+    form: Type[PostAdminForm] = PostAdminForm
     save_as: bool = True
     save_on_top: bool = True
     # Благодря этому появится кнопка "сохранить как новый объект"
     # Из-за этого новый пост будет создан на основе текущего (редактирующего)
     filter_horizontal: tuple = ('tags',)
 
-    def get_photo(self, obj: Optional[Post], width: int = 100) -> str:
+    def get_photo(self, obj: Optional[Post], width: int = 100) -> str:  # noqa
         if obj.photo:
             return mark_safe(f'<img src="{obj.photo.url}" width="{width}">')
 
@@ -67,6 +72,8 @@ class PostAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     """Class to setting Category in Admin."""
 
+    readonly_fields: tuple = ('datetime_created', 'datetime_updated',
+                              'datetime_deleted', 'is_deleted')
     prepopulated_fields: dict = {"slug": ("title",)}
 
 
@@ -74,4 +81,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class TagAdmin(admin.ModelAdmin):
     """Class to setting Tag in Admin."""
 
+    readonly_fields: tuple = ('datetime_created', 'datetime_updated',
+                              'datetime_deleted', 'is_deleted')
     prepopulated_fields: dict = {"slug": ("title",)}

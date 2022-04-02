@@ -2,8 +2,10 @@
 from django.db import models
 from django.urls import reverse
 
+from abstracts.models import DateTimeCustom
 
-class Category(models.Model):
+
+class Category(DateTimeCustom):
     """Category model class."""
 
     title = models.CharField(
@@ -27,11 +29,11 @@ class Category(models.Model):
         """Magic method to return title instead of address."""
         return self.title
 
-    def get_absolute_url(self) -> str:
+    def get_absolute_url(self) -> str:  # noqa
         return reverse("category", kwargs={"slug": self.slug})
 
 
-class Tag(models.Model):
+class Tag(DateTimeCustom):
     """Tag model class."""
 
     title = models.CharField(
@@ -55,11 +57,11 @@ class Tag(models.Model):
         """Magic method to return title instead of address."""
         return self.title
 
-    def get_absolute_url(self) -> str:
+    def get_absolute_url(self) -> str:  # noqa
         return reverse("tag_posts", kwargs={"slug": self.slug})
 
 
-class Post(models.Model):
+class Post(DateTimeCustom):
     """Tag model class."""
 
     title = models.CharField(
@@ -83,7 +85,7 @@ class Post(models.Model):
         verbose_name='Опубликовано'
     )
     photo = models.ImageField(
-        upload_to='photo/%Y/%m/%d/',
+        upload_to='post/photos/%Y/%m/%d/',
         blank=True,
         verbose_name='Миниатюра'
     )
@@ -114,5 +116,5 @@ class Post(models.Model):
         """Magic method to return title instead of address."""
         return self.title
 
-    def get_absolute_url(self) -> str:
+    def get_absolute_url(self) -> str:  # noqa
         return reverse("post", kwargs={"slug": self.slug})

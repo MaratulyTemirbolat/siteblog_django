@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    User registration :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div style="width:50%; margin-left:25%">
+        <h1> Форма регистрации пользователя </h1>
+        <form method = 'post'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"> Зарегестрироваться </button>
+        </form>
+    </div>
+    <br>
+
+{% endblock %}

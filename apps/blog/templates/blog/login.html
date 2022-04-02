@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    User authorization :: {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    <div style="width:50%; margin-left:25%">
+        <h1> Форма авторизации пользователя </h1>
+        <form method = 'post'>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit"> Login </button>
+        </form>
+    </div>
+    <br>
+{% endblock %}

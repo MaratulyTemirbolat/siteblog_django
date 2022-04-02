@@ -17,6 +17,9 @@ from pathlib import Path
 from settings.conf import *  # noqa
 
 
+AUTH_USER_MODEL = 'auths.CustomUser'
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -49,6 +52,8 @@ DJANGO_AND_THIRD_PARTY_APPS = [
 ]
 
 PROJECT_APPS = [
+    'abstracts.apps.AbstractsConfig',
+    'auths.apps.AuthsConfig',
     'blog.apps.BlogConfig',
 ]
 
